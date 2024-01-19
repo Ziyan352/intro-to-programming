@@ -1,0 +1,56 @@
+class VendingMachine:
+    def __init__(self):
+        self.products = {
+            '1A': {'name': 'Juice', 'price': 1.00},
+            '2B': {'name': 'Chips', 'price': 1.50},
+            '3C': {'name': 'Water', 'price': 2.00},
+            '4D': {'name': 'Chocolate', 'price': 2.75}
+
+        }
+        self.balance = 0.0
+
+    def display_menu(self):
+        print("Welcome to the Vending Machine!")
+        print("Menu:")
+        for code, product in self.products.items():
+            print(f"{code}: {product['name']} - ${product['price']:.2f}")
+
+    def insert_money(self):
+        try:
+            amount = float(input("Insert money (in dollars): "))
+            self.balance += amount
+            print(f"Inserted ${amount:.2f}. Current balance: ${self.balance:.2f}")
+        except ValueError:
+            print("Invalid input. Please enter a valid amount.")
+
+    def select_product(self):
+        code = input("Enter the product code: ").upper()
+        if code in self.products:
+            product = self.products[code]
+            if self.balance >= product['price']:
+                self.balance -= product['price']
+                print(f"Dispensing {product['name']}. Remaining balance: ${self.balance:.2f}")
+                print("Enjoy your", product['name'] + "!")
+            else:
+                print("Not enough balance. Please insert more money.")
+        else:
+            print("Product code not found. Please enter a valid code from the menu.")
+
+    def return_change(self):
+        if self.balance > 0:
+            print(f"Returning change: ${self.balance:.2f}")
+            self.balance = 0.0
+        else:
+            print("No change to return.")
+
+
+if __name__ == "__main__":
+    vending_machine = VendingMachine()
+
+    vending_machine.display_menu()
+
+    vending_machine.insert_money()
+
+    vending_machine.select_product()
+
+    vending_machine.return_change()
